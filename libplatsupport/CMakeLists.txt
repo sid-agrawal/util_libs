@@ -168,6 +168,7 @@ target_link_libraries(
     utils
     fdt
     sel4_autoconf
+    sel4gpi
     platsupport_Config
     ${irqchip_modules}
 )
