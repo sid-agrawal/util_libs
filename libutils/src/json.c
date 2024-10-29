@@ -1,21 +1,27 @@
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <utils/json.h>
 
 
 // Function to write JSON data to a buffer
 void json_write(char *buf, size_t buf_size, KeyValuePair *pairs, size_t num_pairs) {
     size_t offset = 0;
-    offset += snprintf(buf + offset, buf_size - offset, "{");
+    offset += snprintf(buf + offset, buf_size - offset, "\"{");
 
     for (size_t i = 0; i < num_pairs; ++i) {
-        offset += snprintf(buf + offset, buf_size - offset, "\"%s\": \"%s\"", pairs[i].key, pairs[i].value);
+        offset += snprintf(buf + offset,
+                           buf_size - offset,
+                           "\"\"%s\"\": \"\"%s\"\"",
+                           pairs[i].key, pairs[i].value);
         if (i < num_pairs - 1) {
             offset += snprintf(buf + offset, buf_size - offset, ", ");
         }
     }
 
-    snprintf(buf + offset, buf_size - offset, "}");
+    offset += snprintf(buf + offset, buf_size - offset, "}\"");
+
+    assert (offset < buf_size);
 }
 
 /* Example
